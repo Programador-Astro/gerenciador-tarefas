@@ -1,0 +1,24 @@
+# Ambiente virtual
+venv/
+
+# Arquivos de ambiente (segurança)
+.env
+.flaskenv
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Diretório de configurações e uploads locais
+instance/
+
+# Configs do VS Code
+.vscode/
+
+# Migrations (opcional: pode ignorar ou não)
+#migrations/
+
+# Logs
+*.log
