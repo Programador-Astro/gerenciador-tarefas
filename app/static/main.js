@@ -1,5 +1,6 @@
 const API_URL = 'http://localhost:5000/tarefas';
 
+// Carrega as tarefas
 async function carregarTarefas() {
   const res = await fetch(API_URL);
   const tarefas = await res.json();
@@ -35,7 +36,6 @@ async function carregarTarefas() {
 
     div.appendChild(statusSpan);
 
-    // Criar container para os botões
     const divBotoes = document.createElement('div');
     divBotoes.className = 'd-flex gap-2';
 
@@ -58,6 +58,7 @@ async function carregarTarefas() {
   });
 }
 
+// Submissão do formulário (criação de tarefa)
 document.getElementById('form-tarefa').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -75,30 +76,41 @@ document.getElementById('form-tarefa').addEventListener('submit', async (e) => {
   carregarTarefas();
 });
 
+// Deletar tarefa
 async function deletarTarefa(id) {
   await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
   carregarTarefas();
 }
 
-// Modal de edição (você pode ajustar o estilo no HTML)
-function abrirModalEdicao(tarefa) {
-  const novoTitulo = prompt('Novo título:', tarefa.titulo);
-  const novaDescricao = prompt('Nova descrição:', tarefa.descricao);
+// Edição via Modal
+let tarefaEditando = null;
 
-  if (novoTitulo !== null && novaDescricao !== null) {
-    fetch(`${API_URL}/${tarefa.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        titulo: novoTitulo,
-        descricao: novaDescricao
-      }),
-    })
-    .then(res => res.json())
-    .then(() => carregarTarefas());
-  }
+function abrirModalEdicao(tarefa) {
+  tarefaEditando = tarefa;
+  document.getElementById('editar-id').value = tarefa.id;
+  document.getElementById('editar-titulo').value = tarefa.titulo;
+  document.getElementById('editar-descricao').value = tarefa.descricao;
+
+  const modal = new bootstrap.Modal(document.getElementById('modalEdicao'));
+  modal.show();
 }
 
+document.getElementById('salvar-edicao').addEventListener('click', async () => {
+  const id = document.getElementById('editar-id').value;
+  const titulo = document.getElementById('editar-titulo').value;
+  const descricao = document.getElementById('editar-descricao').value;
+
+  await fetch(`${API_URL}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ titulo, descricao })
+  });
+
+  const modal = bootstrap.Modal.getInstance(document.getElementById('modalEdicao'));
+  modal.hide();
+
+  carregarTarefas();
+});
+
+// Inicia
 carregarTarefas();

@@ -34,26 +34,28 @@
     <ul id="lista-tarefas" class="list-group"></ul>
   </div>
 
-  <div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+  <!-- Modal de Edição -->
+<div class="modal fade" id="modalEdicao" tabindex="-1" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="modalEditarLabel">Editar Tarefa</h5>
+          <h5 class="modal-title" id="modalEdicaoLabel">Editar Tarefa</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
-          <form id="form-editar">
-            <input type="hidden" id="editar-id">
-            <div class="mb-3">
-              <label for="editar-titulo" class="form-label">Título</label>
-              <input type="text" class="form-control" id="editar-titulo" required>
-            </div>
-            <div class="mb-3">
-              <label for="editar-descricao" class="form-label">Descrição</label>
-              <input type="text" class="form-control" id="editar-descricao" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-          </form>
+          <input type="hidden" id="editar-id">
+          <div class="mb-3">
+            <label for="editar-titulo" class="form-label">Título</label>
+            <input type="text" class="form-control" id="editar-titulo">
+          </div>
+          <div class="mb-3">
+            <label for="editar-descricao" class="form-label">Descrição</label>
+            <input type="text" class="form-control" id="editar-descricao">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="salvar-edicao">Salvar</button>
         </div>
       </div>
     </div>
