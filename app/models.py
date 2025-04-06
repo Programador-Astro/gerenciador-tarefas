@@ -6,4 +6,4 @@ class Tarefa(db.Model):
     titulo = db.Column(db.String(100), nullable=False)
     descricao = db.Column(db.Text, nullable=True)
     status = db.Column(db.String(20), default="pendente")
-    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)  
+    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)

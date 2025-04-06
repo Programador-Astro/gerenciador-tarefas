@@ -1,7 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from . import models
+from flask_cors import CORS
+
+
 db = SQLAlchemy()
 migrate = Migrate()
 
@@ -11,8 +13,8 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
-
-    from . import models
+    CORS(app)
+    from . import models  # <- IMPORTANTE!
     from .routes import main
     app.register_blueprint(main)
 
