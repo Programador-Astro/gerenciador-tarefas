@@ -1,4 +1,4 @@
-const API_URL = 'https://gerenciador-tarefas-3roz.onrender.com/';
+const API_URL = 'https://gerenciador-tarefas-3roz.onrender.com/tarefas';
 
 
 // Carrega as tarefas
