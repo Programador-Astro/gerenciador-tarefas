@@ -1,4 +1,3 @@
-
 const API_URL = 'http://localhost:5000/tarefas';
 
 async function carregarTarefas() {
@@ -11,13 +10,37 @@ async function carregarTarefas() {
   tarefas.forEach(tarefa => {
     const li = document.createElement('li');
     li.className = 'list-group-item d-flex justify-content-between align-items-center';
-    li.innerHTML = `
-      <div>
-        <strong>${tarefa.titulo}</strong> - ${tarefa.descricao}
-        <span class="badge bg-${tarefa.status === 'concluída' ? 'success' : 'secondary'} ms-2">${tarefa.status}</span>
-      </div>
-      <button class="btn btn-sm btn-danger" onclick="deletarTarefa(${tarefa.id})">🗑️</button>
-    `;
+
+    const statusClass = tarefa.status === 'concluída' ? 'success' : 'secondary';
+
+    const div = document.createElement('div');
+    div.innerHTML = `<strong>${tarefa.titulo}</strong> - ${tarefa.descricao} `;
+
+    const statusSpan = document.createElement('span');
+    statusSpan.className = `badge bg-${statusClass} ms-2`;
+    statusSpan.textContent = tarefa.status;
+
+    statusSpan.addEventListener('click', async () => {
+      const novoStatus = tarefa.status === 'pendente' ? 'concluída' : 'pendente';
+
+      await fetch(`${API_URL}/${tarefa.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: novoStatus })
+      });
+
+      carregarTarefas();
+    });
+
+    div.appendChild(statusSpan);
+
+    const btnDelete = document.createElement('button');
+    btnDelete.className = 'btn btn-sm btn-danger';
+    btnDelete.innerHTML = '🗑️';
+    btnDelete.onclick = () => deletarTarefa(tarefa.id);
+
+    li.appendChild(div);
+    li.appendChild(btnDelete);
     lista.appendChild(li);
   });
 }
@@ -43,4 +66,5 @@ async function deletarTarefa(id) {
   carregarTarefas();
 }
 
+// 👇 Chama o carregamento ao abrir a página
 carregarTarefas();

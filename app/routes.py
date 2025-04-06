@@ -59,24 +59,14 @@ def criar_tarefa():
 @main.route("/tarefas/<int:id>", methods=["PUT"])
 def atualizar_tarefa(id):
     tarefa = Tarefa.query.get_or_404(id)
-    dados = request.get_json()
+    dados = request.json
 
-    tarefa.titulo = dados.get("titulo", tarefa.titulo)
-    tarefa.descricao = dados.get("descricao", tarefa.descricao)
-    tarefa.status = dados.get("status", tarefa.status)
-
-    db.session.commit()
-
-    return jsonify({
-        "mensagem": "Tarefa atualizada com sucesso!",
-        "tarefa": {
-            "id": tarefa.id,
-            "titulo": tarefa.titulo,
-            "descricao": tarefa.descricao,
-            "status": tarefa.status,
-            "data_criacao": tarefa.data_criacao.strftime("%Y-%m-%d %H:%M:%S")
-        }
-    })
+    if 'status' in dados:
+        tarefa.status = dados['status']
+        db.session.commit()
+        return jsonify({'mensagem': 'Tarefa atualizada com sucesso'}), 200
+    else:
+        return jsonify({'erro': 'Status não fornecido'}), 400
 
 
 
@@ -88,3 +78,6 @@ def deletar_tarefa(id):
     db.session.commit()
 
     return jsonify({"mensagem": f"Tarefa {id} excluída com sucesso!"})
+
+
+
