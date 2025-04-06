@@ -59,15 +59,17 @@ def criar_tarefa():
 @main.route("/tarefas/<int:id>", methods=["PUT"])
 def atualizar_tarefa(id):
     tarefa = Tarefa.query.get_or_404(id)
-    dados = request.json
+    dados = request.get_json()
 
+    if 'titulo' in dados:
+        tarefa.titulo = dados['titulo']
+    if 'descricao' in dados:
+        tarefa.descricao = dados['descricao']
     if 'status' in dados:
         tarefa.status = dados['status']
-        db.session.commit()
-        return jsonify({'mensagem': 'Tarefa atualizada com sucesso'}), 200
-    else:
-        return jsonify({'erro': 'Status não fornecido'}), 400
 
+    db.session.commit()
+    return jsonify({'mensagem': 'Tarefa atualizada com sucesso'})
 
 
 @main.route("/tarefas/<int:id>", methods=["DELETE"])
