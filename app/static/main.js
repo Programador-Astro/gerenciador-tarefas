@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:5000/tarefas';
+const API_URL = 'https://gerenciador-tarefas-3roz.onrender.com/';
+
 
 // Carrega as tarefas
 async function carregarTarefas() {
